@@ -89,5 +89,16 @@ cols = ['condition', 'sensitive', 'resistance', 'sensitive_label', 'resistance_l
 
 data[cols].to_csv('results/full_mappings.tsv', index=False, sep='\t')
 
-# Print repeated rows
-print(data[data.duplicated(data[cols[1:]], keep=False)].sort_values('fyeco_terms'))
+# Repeated rows
+duplicated_data = data[data.duplicated(subset=cols[1:], keep=False)].sort_values('fyeco_terms')
+
+duplicated_data['repeated_group'] = 1
+previous_value = duplicated_data['fyeco_terms'].iloc[0]
+current_index = 1
+for i, row in duplicated_data.iterrows():
+    if previous_value != row['fyeco_terms']:
+        current_index += 1
+    duplicated_data.loc[i, 'repeated_group'] = current_index
+    previous_value = row['fyeco_terms']
+
+duplicated_data[['repeated_group'] + cols].to_csv('results/repeated_rows.tsv', index=False, sep='\t')
