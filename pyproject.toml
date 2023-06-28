@@ -1,0 +1,10 @@
+[tool.poetry]
+authors = ["Manuel Lera Ramirez @manulera"]
+description = ""
+name = "phenomics_paper"
+version = "0.1.0"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pandas = "^1.5.0"
+openpyxl = "^3.0.10"
