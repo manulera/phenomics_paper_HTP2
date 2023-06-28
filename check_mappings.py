@@ -24,7 +24,7 @@ for i, row in data.iterrows():
             term = chunk.split('(')[0].strip()
             fyeco_string += f'<li>{term} ({fyeco[term]}) - {value}</li>\n'
         else:
-            fyeco_string += f'<li>{chunk.strip()} {fyeco[chunk.strip()]}</li>\n'
+            fyeco_string += f'<li>{chunk.strip()} ({fyeco[chunk.strip()]})</li>\n'
     out_file += f'''
     <h2>{row['condition']} - {row['Description']}</h2>
     <ul>
