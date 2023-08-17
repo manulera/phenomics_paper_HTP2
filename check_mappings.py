@@ -1,6 +1,5 @@
 import pandas
 import json
-import re
 
 # prints mappings to html file to double check
 
