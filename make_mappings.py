@@ -85,20 +85,14 @@ def concat_fun(r):
 
 data['fyeco_terms'] = data[['Medium', 'Other condition', 'temperature']].apply(concat_fun, axis=1)
 
-cols = ['condition', 'sensitive', 'resistance', 'sensitive_label', 'resistance_label', 'fyeco_terms']
+mappings_maria = pandas.read_csv('data/mappings_maria.csv', na_filter=False)
 
-data[cols].to_csv('results/full_mappings.tsv', index=False, sep='\t')
+cols = ['condition', 'sensitive', 'resistance', 'sensitive_label', 'resistance_label', 'fyeco_terms']
+rows2remove = data.duplicated(subset=cols[1:], keep=False) & ~data['condition'].isin(mappings_maria['condition'])
+data = data[~rows2remove].copy()
 
 # Repeated rows
-duplicated_data = data[data.duplicated(subset=cols[1:], keep=False)].sort_values('fyeco_terms')
+if any(data.duplicated(subset=cols[1:])):
+    raise ValueError('duplicated rows')
 
-duplicated_data['repeated_group'] = 1
-previous_value = duplicated_data['fyeco_terms'].iloc[0]
-current_index = 1
-for i, row in duplicated_data.iterrows():
-    if previous_value != row['fyeco_terms']:
-        current_index += 1
-    duplicated_data.loc[i, 'repeated_group'] = current_index
-    previous_value = row['fyeco_terms']
-
-duplicated_data[['repeated_group'] + cols].to_csv('results/repeated_rows.tsv', index=False, sep='\t')
+data[cols].to_csv('results/full_mappings.tsv', index=False, sep='\t')
