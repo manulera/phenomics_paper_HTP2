@@ -2,8 +2,6 @@
 
 This repository contains the code to generate genotype-to-phenotype datasets in PomBase [phaf format](https://www.pombase.org/downloads/phenotype-annotations) for Rodriguez-Lopez et al. 2023.
 
-The current version lacks the reference column in the phaf file, since a PMID is not available yet.
-
 This code can be easily adapted to generate phaf files from other datasets.
 
 ## Installation
