@@ -13,6 +13,9 @@ data = data[data['phenotype'] != 0]
 data = data.merge(mappings[['condition', 'sensitive', 'resistance', 'fyeco_terms']], on='condition', how='left')
 
 data['FYPO ID'] = data.apply(lambda x: x['sensitive'] if x['phenotype'] == -1 else x['resistance'], axis=1)
+rows2drop = data[pandas.isna(data['FYPO ID'])]
+print('the following conditions will be dropped (see https://github.com/pombase/fypo/issues/4375)', set(rows2drop['condition']))
+data = data[~pandas.isna(data['FYPO ID'])]
 data['Condition'] = data['fyeco_terms']
 
 column_order = [
